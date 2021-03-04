@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Список товаров";
+}
+
+@model IEnumerable<WebApplication1.Models.Product>
+@{
+}
+
+<head>
+    <title>Магазин смартфонов</title>
+</head>
+<body>
+    <h3>Смартфоны</h3>
+    <table>
+        <tr>
+            <td>Модель</td>
+            <td>Цена</td>
+            <td></td>
+        </tr>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>@product.Cost</td>
+                <td><a href="~/Home/Buy/@product.ID">Купить</a></td>
+            </tr>
+        }
+    </table>
+</body>
