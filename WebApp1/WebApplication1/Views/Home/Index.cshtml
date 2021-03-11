@@ -20,7 +20,10 @@
                 <td>@product.ID</td>
                 <td>@product.ProductName</td>
                 <td>@product.Cost</td>
+                <td><a href="~/Home/Modify/@product.ID">Update</a></td>
+                <td><a href="~/Home/Delete/@product.ID">Delete</a></td>
             </tr>
         }
     </table>
+    <a href="~/Home/Create">Create</a>
 </body>

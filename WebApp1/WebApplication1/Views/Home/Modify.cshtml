@@ -1,0 +1,25 @@
+﻿@model Product
+@{ 
+    ViewData["Title"] = "Modify Product";
+}
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        <h2>Old data:</h2>
+        <p>Name : @Model.ProductName</p>
+        <p>Cost : @Model.Cost</p>
+    </div>
+    <div>
+        <h2>Input new data:</h2>
+        <form method="post">
+            <input type="text" />
+            <input type="text" />
+            <button type="submit" class="btn">Update</button>
+        </form>
+    </div>
+
+</body>
+</html>
