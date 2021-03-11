@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Транзакции";
+}
+
+@model IEnumerable<Transaction>
+@{
+}
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <h3>Таблица</h3>
+    <table class="table-condensed">
+        <tr>
+            <td>ID</td>
+            <td>Date</td>
+            <td>Product</td>
+            <td>Product ID</td>
+            <td>User ID</td>
+            <td>User</td>
+            <td>Coast</td>
+        </tr>
+        @foreach (var transaction in Model)
+        {
+            <tr>
+                <td>@transaction.TransactionId</td>
+                <td>@transaction.Date</td>
+                <td>@transaction.Product</td>
+                <td>@transaction.ProductId</td>
+                <td>@transaction.UserId</td>
+                <td>@transaction.User</td>
+                <td>@transaction.Coast</td>
+            </tr>
+        }
+    </table>
+</body>

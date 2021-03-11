@@ -8,9 +8,8 @@ namespace WebApplication1.Models
     public class Transaction
     {
         public int TransactionId { get; set; }
-
+        public DateTime Date { get; set; }
         public int Coast { get; set; }
-
         public int ManagerId { get; set; }
         public Manager Manager { get; set; }
         public int ProductId { get; set; }
