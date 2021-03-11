@@ -1,6 +1,6 @@
-﻿@model IEnumerable<User>
+﻿@model IEnumerable<Manager>
 @{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = "Managers";
 }
 <head>
     <title>@ViewBag.Title</title>
@@ -11,11 +11,11 @@
             <th>ID</th>
             <th>Имя</th>
         </tr>
-        @foreach (var user in Model)
+        @foreach (var manager in Model)
         {
             <tr>
-                <td>@user.UserId</td>
-                <td>@user.UserName</td>
+                <td>@manager.ManagerId</td>
+                <td>@manager.ManagerName</td>
             </tr>
         }
     </table>
