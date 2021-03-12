@@ -1,17 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Транзакции";
-}
-
-@model IEnumerable<Transaction>
+﻿@model IEnumerable<Transaction>
 @{
+    ViewData["Title"] = "Transactions";
 }
-
+<!doctype html>
 <head>
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <h3>Таблица</h3>
-    <table class="table-condensed">
+    <table class="table table-bordered table-striped table-dark">
         <tr>
             <th>ID</th>
             <th>Date</th>
@@ -19,7 +15,7 @@
             <th>Product ID</th>
             <th>User ID</th>
             <th>User</th>
-            <th>Coast</th>
+            <th>Cost</th>
         </tr>
         @foreach (var transaction in Model)
         {

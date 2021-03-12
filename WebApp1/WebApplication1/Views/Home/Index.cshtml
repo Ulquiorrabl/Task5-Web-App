@@ -3,27 +3,32 @@
 }
 
 @model IEnumerable<Product>
-
+<!doctype html>
 <head>
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <table class="table-bordered">
+    <table class="table table-bordered table-striped table-dark">
         <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Cost</th>
+            <th>Manage</th>
         </tr>
-        @foreach(var product in Model)
+        @foreach (var product in Model)
         {
-            <tr>
-                <td>@product.ID</td>
-                <td>@product.ProductName</td>
-                <td>@product.Cost</td>
-                <td><a href="~/Home/Modify/@product.ID">Update</a></td>
-                <td><a href="~/Home/Delete/@product.ID">Delete</a></td>
-            </tr>
+    <tr>
+        <td>@product.ID</td>
+        <td>@product.ProductName</td>
+        <td>@product.Cost</td>
+        <td>
+                <a href="~/Home/Update/@product.ID" class="btn btn-primary">Update</a>
+                <a href="~/Home/Delete/@product.ID" class="btn btn-danger">Delete</a>
+        </td>
+
+    </tr>
+
         }
     </table>
-    <a href="~/Home/Create">Create</a>
+    <a href="~/Home/Create" class="btn btn-light">Create</a>
 </body>

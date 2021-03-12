@@ -2,22 +2,28 @@
 @{
     ViewData["Title"] = "Managers";
 }
+<!doctype html>
 <head>
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <table class="table-condensed">
+    <table class="table table-bordered table-striped table-dark">
         <tr>
             <th>ID</th>
-            <th>Имя</th>
+            <th>Name</th>
+            <th>Manage</th>
         </tr>
         @foreach (var manager in Model)
         {
             <tr>
                 <td>@manager.ManagerId</td>
                 <td>@manager.ManagerName</td>
+                <td>
+                    <a href="~/Manager/Update/@manager.ManagerId" class="btn btn-primary">Update</a>
+                    <a href="~/Manager/Delete/@manager.ManagerId" class="btn btn-danger">Delete</a>
+                </td>
             </tr>
         }
     </table>
-
+    <a href="~/Manager/Create" class="btn btn-light">Add</a>
 </body>

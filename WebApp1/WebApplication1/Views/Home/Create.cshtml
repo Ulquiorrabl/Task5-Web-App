@@ -1,14 +1,24 @@
 ﻿@{ 
     ViewData["Title"] = "Creating product";
 }
+<!doctype html>
 <head>
     <title>@ViewBag.Title</title>
 </head>
 <body>
     <h2>Input product details:</h2>
     <form method="post">
-        <input type="text" name="ProductName"/>
-        <input type="text" name="Cost"/>
-        <button type="submit" class="btn-group"></button>
+        <table class="table">
+            <tr>
+                <th>Product name:</th>
+                <td><input type="text" name="ProductName" /></td>
+
+            </tr>
+            <tr>
+                <th>Product cost:</th>
+                <td><input type="text" name="Cost" /></td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-outline-dark">Confirm</button>
     </form>
 </body>

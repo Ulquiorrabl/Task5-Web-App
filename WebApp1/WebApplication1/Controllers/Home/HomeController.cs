@@ -52,10 +52,19 @@ namespace WebApplication1.Controllers.Home
         }
 
         [HttpGet]
-        public IActionResult Modify(int id)
+        public IActionResult Update(int id)
         {
-            Product pr = db.Products.FirstOrDefault(product => product.ID == id);
-            return View(pr);
+            var product = db.Products.FirstOrDefault(product => product.ID == id);
+            return View(product);
+        }
+        [HttpPost]
+        public IActionResult Update(Product updatedProduct)
+        {
+            var product = db.Products.FirstOrDefault(x => x.ID == updatedProduct.ID);
+            product.ProductName = updatedProduct.ProductName;
+            product.Cost = updatedProduct.Cost;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
