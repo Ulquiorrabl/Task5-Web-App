@@ -8,35 +8,35 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div>
-        <h2>Old data:</h2>
-        <table class="table table-dark">
-            <tr>
-                <th>Product name:</th>
-                <td>@Model.ProductName</td>
-                <th>Product cost:</th>
-                <td>@Model.Cost</td>
-            </tr>
-        </table>
-    </div>
-    <div>
-        <form method="post">
-            <h2>Input new data:</h2>
-            <input type="hidden" value="@Model.ID" name="ID" />
-            <table class="table">
+    <div class="text-light">
+        <div>
+            <h2>Old data:</h2>
+            <table class="table table-dark">
                 <tr>
                     <th>Product name:</th>
-                    <td><input type="text" name="ProductName" value="@Model.ProductName" /></td>
-
-                </tr>
-                <tr>
+                    <td>@Model.ProductName</td>
                     <th>Product cost:</th>
-                    <td><input type="text" name="Cost" value="@Model.Cost" /></td>
+                    <td>@Model.Cost</td>
                 </tr>
             </table>
-            <button type="submit" class="btn btn-outline-dark">Update</button>
-        </form>
-
+        </div>
+        <div>
+            <form method="post">
+                <input type="hidden" value="@Model.ID" name="ID" />
+                <div>
+                    <h2>Input new data:</h2>
+                    <div class="form-group navbar-dark">
+                        <label for="productNameInput"> Product name:</label>
+                        <input class="form-control" type="text" id="productNameInput" name="ProductName" value="@Model.ProductName" />
+                    </div>
+                    <div class="form-group">
+                        Product cost:
+                        <input class="form-control" type="text" name="Cost" value="@Model.Cost" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
