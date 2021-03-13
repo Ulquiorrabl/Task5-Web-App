@@ -17,7 +17,14 @@ namespace WebApplication1.Controllers.Transaction
 
         public IActionResult Index()
         {
-            return View(db.Transactions.ToList());
+            if(db.Transactions != null)
+            {
+                return View(db.Transactions.ToList());
+            }
+            else
+            {
+                throw new NullReferenceException("Transactions set does not exsist in current TransactionContext");
+            }
         }
     }
 }

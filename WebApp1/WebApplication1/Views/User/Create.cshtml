@@ -6,14 +6,17 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <h2>Input user information:</h2>
-    <form method="post">
-        <table class="table">
-            <tr>
-                <th>User name:</th>
-                <td><input type="text" name="UserName" /></td>
-            </tr>
-        </table>
-        <button type="submit" class="btn btn-outline-dark">Confirm</button>
-    </form>
+    <div class="text-light">
+        <h2>Input user information:</h2>
+        <div>
+            <form method="post">
+                <div class="form-group">
+                    <label for="userNameInput">Product name:</label>
+                    <input class="form-control" type="text" name="UserName" />
+                </div>
+                <button type="submit" class="btn btn-light">Confirm</button>
+            </form>
+        </div>
+    </div>
+
 </body>

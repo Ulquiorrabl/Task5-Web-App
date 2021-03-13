@@ -21,7 +21,14 @@ namespace WebApplication1.Controllers.Home
 
         public IActionResult Index()
         {
-            return View(db.Products.ToList());
+            if(db.Products != null)
+            {
+                return View(db.Products.ToList());
+            }
+            else
+            {
+                throw new NullReferenceException("Set of objects Products in current contexts is not exist");
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -33,16 +40,34 @@ namespace WebApplication1.Controllers.Home
         public IActionResult Delete(int id)
         {
             Product pr = db.Products.FirstOrDefault(x => x.ID == id);
-            db.Products.Remove(pr);
-            db.SaveChanges();
+            if(pr != null)
+            {
+                db.Products.Remove(pr);
+                db.SaveChanges();
+            }
+            else
+            {
+                throw new KeyNotFoundException("Product not found");
+            }
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Create(Product product)
         {
-            db.Products.Add(product);
-            db.SaveChanges();
+            if(product != null)
+            {
+                if (TryValidateModel(product))
+                {
+                    db.Products.Add(product);
+                    db.SaveChanges();
+                }
+
+            }
+            else
+            {
+                throw new ArgumentNullException("Null object was received when trying to create Product object");
+            }
             return RedirectToAction("Index");
         } 
         [HttpGet]
@@ -55,15 +80,29 @@ namespace WebApplication1.Controllers.Home
         public IActionResult Update(int id)
         {
             var product = db.Products.FirstOrDefault(product => product.ID == id);
-            return View(product);
+            if(product != null)
+            {
+                return View(product);
+            }
+            else
+            {
+                throw new KeyNotFoundException("Product with this id not found");
+            }
         }
         [HttpPost]
         public IActionResult Update(Product updatedProduct)
         {
             var product = db.Products.FirstOrDefault(x => x.ID == updatedProduct.ID);
-            product.ProductName = updatedProduct.ProductName;
-            product.Cost = updatedProduct.Cost;
-            db.SaveChanges();
+            if(product != null)
+            {
+                product.ProductName = updatedProduct.ProductName;
+                product.Cost = updatedProduct.Cost;
+                db.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentNullException("Null object was received when trying to update Product object");
+            }
             return RedirectToAction("Index");
         }
     }

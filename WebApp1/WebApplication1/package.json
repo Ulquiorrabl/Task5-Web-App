@@ -4,6 +4,6 @@
     "private": true,
     "devDependencies": {
         "@types/jquery": "3.5.5",
-        "@types/react": "17.0.3",
+        "@types/react": "17.0.3"
     }
 }

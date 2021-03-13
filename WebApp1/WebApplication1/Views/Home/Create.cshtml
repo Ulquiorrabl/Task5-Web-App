@@ -6,19 +6,23 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <h2>Input product details:</h2>
-    <form method="post">
-        <table class="table">
-            <tr>
-                <th>Product name:</th>
-                <td><input type="text" name="ProductName" /></td>
-
-            </tr>
-            <tr>
-                <th>Product cost:</th>
-                <td><input type="text" name="Cost" /></td>
-            </tr>
-        </table>
-        <button type="submit" class="btn btn-outline-dark">Confirm</button>
-    </form>
+    <div class="text-light">
+        <h2>Input product details:</h2>
+        <div>
+            <form method="post">
+                <div>
+                    <div class="form-group navbar-dark">
+                        <label for="productNameInput"> Product name:</label>
+                        <input class="form-control" type="text" id="productNameInput" name="ProductName"/>
+                    </div>
+                    <div class="form-group">
+                        Product cost:
+                        <input class="form-control" type="text" name="Cost"/>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-light">Confirm</button>
+            </form>
+        </div>
+    </div>
+    
 </body>

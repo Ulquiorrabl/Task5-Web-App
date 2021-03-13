@@ -6,14 +6,16 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <h2>Input manager information:</h2>
-    <form method="post">
-        <table class="table">
-            <tr>
-                <th>Manager name:</th>
-                <td><input type="text" name="ManagerName" /></td>
-            </tr>
-        </table>
-        <button type="submit" class="btn btn-outline-dark">Confirm</button>
-    </form>
+    <div class="text-light">
+        <h2>Input manager information:</h2>
+        <div>
+            <form method="post">
+                <div class="form-group">
+                    <label for="managerNameInput"></label> Manager name:
+                    <input id="managerNameInput" class="form-control" type="text" name="ManagerName" />
+                </div>
+                <button type="submit" class="btn btn-light">Confirm</button>
+            </form>
+        </div>
+    </div> 
 </body>
