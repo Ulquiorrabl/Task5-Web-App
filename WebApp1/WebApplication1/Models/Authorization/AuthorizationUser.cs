@@ -8,5 +8,6 @@ namespace WebApplication1.Models.Authorization
 {
     public class AuthorizationUser : IdentityUser
     {
+        public int Age { get; set; }
     }
 }

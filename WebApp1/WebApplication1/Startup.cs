@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using WebApplication1.Models.Authorization;
 
 namespace WebApplication1
 {
@@ -39,7 +41,7 @@ namespace WebApplication1
 
             if(authorizationConnection != null)
             {
-                services.AddDbContext<Models.Authorization.AuthorizationContext>(options => options.UseSqlServer(authorizationConnection));
+                services.AddDbContext<AuthorizationContext>(options => options.UseSqlServer(authorizationConnection));
             }
             else
             {
@@ -47,8 +49,8 @@ namespace WebApplication1
             }
 
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<Models.Authorization.AuthorizationContext>();
+            services.AddIdentity<AuthorizationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AuthorizationContext>();
 
             services.AddControllersWithViews();
 

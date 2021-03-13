@@ -9,23 +9,28 @@
 <body>
     <div class="text-light">
         <h3>Input data for registering</h3>
+        <div asp-validation-summary="ModelOnly"></div>
         <div>
             <form method="post">
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input class="form-control" type="text" id="username" name="UserName"/>
+                    <input class="form-control w-25" type="text" id="username" name="UserName" />
+                    <span asp-validation-for="UserName"></span>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email^</label>
-                    <input class="form-control" type="email" id="email" name="Email"/>
+                    <label for="email">Email:</label>
+                    <input class="form-control w-25" type="email" id="email" name="Email" />
+                    <span asp-validation-for="Email"></span>
                 </div>
                 <div class="form-group">
                     <label for="pass">Password:</label>
-                    <input class="form-control" type="password" id="pass" name="Password"/>
+                    <input class="form-control w-25" type="password" id="pass" name="Password" />
+                    <span asp-validation-for="Password"></span>
                 </div>
                 <div class="form-group">
                     <label for="confirmpass">Confirm password:</label>
-                    <input class="form-control" type="password" id="confirmpass" name="ConfirmPassword"/>
+                    <input class="form-control w-25" type="password" id="confirmpass" name="ConfirmPassword" />
+                    <span asp-validation-for="ConfirmPassword"></span>
                 </div>
                 <div>
                     <button class="btn btn-light">Register</button>

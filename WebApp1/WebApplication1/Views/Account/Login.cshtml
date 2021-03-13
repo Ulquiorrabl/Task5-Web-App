@@ -1,5 +1,28 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model WebApplication1.Models.Authorization.Validation.AuthorisationUserView
+<!doctype html>
 @{
+    ViewData["Title"] = "Login";
 }
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="text-light">
+        <h3>Input data for logging in</h3>
+        <div>
+            <form method="post">
+                <div class="form-group">
+                    <label for="email">Input email:</label>
+                    <input class="form-control w-25" type="email" id="email" name="Email"/>
+                </div>
+                <div class="form-group">
+                    <label for="pass">Input password:</label>
+                    <input class="form-control w-25" type="password" id="pass" name="Password"/>
+                </div>
+                <div>
+                    <button class="btn btn-light">Log in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
