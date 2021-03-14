@@ -8,22 +8,34 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <table class="table table-bordered table-striped table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Cost</th>
+    <div>
+        <form id="searchForm">
+            <div class="form-group">
+                <label for="productNameField">Input product name:</label>
+                <input class="form-control w-50" id="productNameField" type="text" name="productName" />
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+        <button type="button" id="btn1" class="btn btn-light">Search</button>
+    </div>
 
-            @if (User.IsInRole("user") || !User.Identity.IsAuthenticated)
-            {
-                <th>Buy</th>
-            }
-            @if (User.IsInRole("admin"))
-            {
-                <th>Manage</th>
-            }
-
-        </tr>
+    <table class="table table-bordered table-striped table-dark" id="productTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Cost</th>
+                @if (User.IsInRole("user") || !User.Identity.IsAuthenticated)
+                {
+                    <th>Buy</th>
+                }
+                @if (User.IsInRole("admin"))
+                {
+                    <th>Manage</th>
+                }
+            </tr>
+        </thead>
         @foreach (var product in Model)
         {
             <tr>
@@ -49,5 +61,31 @@
     {
         <a href="~/Home/Create" class="btn btn-light">Create</a>
     }
-
+    @section Scripts{
+        <script>
+            $(document).ready(function () {
+                $("#btn1").bind("click", (function () {
+                    $.ajax({
+                        url: "/Home/GetProducts",
+                        method: "Post",
+                        data: $("#productName").val(),
+                        success: (function (data) {
+                            let prTable = $('#productTable');
+                            prTable.empty();
+                            alert(data);
+                            var products = data.content;
+                            alert(products);
+                            alert(products[0]);
+                            alert(products);
+                            $(data).each(function (product) {
+                                product = JSON.parse(product)
+                                prTable.append('<tr><td>' + product["id"] + '</td><td>'
+                                    + product.productName + '</td><td>' + product.cost + '</td><td>')
+                            });
+                        })
+                    });
+                }));
+            });
+        </script>
+    }
 </body>

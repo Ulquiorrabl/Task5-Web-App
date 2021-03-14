@@ -21,7 +21,8 @@ namespace WebApplication1.Controllers.Transaction
         {
             if(db.Transactions != null)
             {
-                return View(db.Transactions.ToList());
+                List<Models.Transaction> transactions = db.Transactions.ToList();
+                return View(transactions);
             }
             else
             {

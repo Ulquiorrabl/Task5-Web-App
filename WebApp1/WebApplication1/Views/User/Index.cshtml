@@ -8,6 +8,7 @@
 <body>
     <table class="table table-bordered table-striped table-dark" >
         <tr>
+            <th>User ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Manage</th>
@@ -15,6 +16,7 @@
         @foreach (var user in Model)
         {
     <tr>
+        <td>@user.Id</td>
         <td>@user.UserName</td>
         <td>@user.Email</td>
         <td>

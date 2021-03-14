@@ -7,6 +7,19 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
+    <div>
+        <form method="post">
+            <div class="form-group">
+                <label for="productNameField">Input product name:</label>
+                <input class="form-control w-50" id="productNameField" type="text" name="productName" />
+                <label for="productNameField">Input product name:</label>
+                <input class="form-control w-50" id="userNameField" type="text" name="userName" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-light">Search</button>
+            </div>
+        </form>
+    </div>
     <table class="table table-bordered table-striped table-dark">
         <tr>
             <th>ID</th>
@@ -22,10 +35,10 @@
             <tr>
                 <td>@transaction.TransactionId</td>
                 <td>@transaction.Date</td>
-                <td>@transaction.Product</td>
+                <td>@transaction.Product?.ProductName</td>
                 <td>@transaction.ProductId</td>
                 <td>@transaction.UserId</td>
-                <td>@transaction.User.UserName</td>
+                <td>@transaction.User?.UserName</td>
                 <td>@transaction.Cost</td>
             </tr>
         }

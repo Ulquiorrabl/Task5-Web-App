@@ -21,12 +21,41 @@ namespace WebApplication1.Controllers.Home
             this.db = db;
             this._userManager = userManager;
         }
+        [HttpPost]
+        public JsonResult GetProducts(string productNameFilter)
+        {
+            var products = db.Products.ToList();
+            var json = Json(new { data = products });
+            return Json(new { data = products });
+        }
 
+        [HttpGet]
         public IActionResult Index()
         {
             if(db.Products != null)
             {
-                return View(db.Products.ToList());
+                return View(db.Products.ToList()); //Json(new { data = db.Products.ToList() }) ;  //View(db.Products.ToList());
+            }
+            else
+            {
+                throw new NullReferenceException("Set of objects Products in current contexts is not exist");
+            }
+        }
+        [HttpPost]
+        public IActionResult Index(string productName)
+        {
+            if (db.Products != null)
+            {
+                var products = db.Products.Where(product => product.ProductName.Contains(productName)).ToList();
+                if(products != null)
+                {
+
+                    return View(db.Products.ToList());
+                }
+                else
+                {
+                    return  RedirectToAction("Index");
+                }
             }
             else
             {
@@ -132,6 +161,7 @@ namespace WebApplication1.Controllers.Home
                         Product = product,
                         User = user
                     }) ;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             else return RedirectToAction("Index");
