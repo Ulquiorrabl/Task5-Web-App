@@ -38,6 +38,7 @@ namespace WebApplication1.Controllers.Authorization
                 var resultOfCreating = await _userManager.CreateAsync(user, userInfo.Password);
                 if (resultOfCreating.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "user");
                     await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
                 }

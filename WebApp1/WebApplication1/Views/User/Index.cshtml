@@ -1,4 +1,4 @@
-﻿@model IEnumerable<User>
+﻿@model IEnumerable<WebApplication1.Models.Authorization.AuthorizationUser>
 @{
     ViewData["Title"] = "Users";
 }
@@ -8,18 +8,18 @@
 <body>
     <table class="table table-bordered table-striped table-dark" >
         <tr>
-            <th>ID</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Manage</th>
         </tr>
         @foreach (var user in Model)
         {
     <tr>
-        <td>@user.UserId</td>
         <td>@user.UserName</td>
+        <td>@user.Email</td>
         <td>
-            <a href="~/User/Update/@user.UserId" class="btn btn-primary">Update</a>
-            <a href="~/User/Delete/@user.UserId" class="btn btn-danger">Delete</a>
+            <a href="~/User/Update/@user.Id" class="btn btn-primary">Update</a>
+            <a href="~/User/Delete/@user.Id" class="btn btn-danger">Delete</a>
         </td>
     </tr>
         }

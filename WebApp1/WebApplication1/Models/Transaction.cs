@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using WebApplication1.Models.Authorization;
 
 namespace WebApplication1.Models
 {
@@ -25,8 +26,8 @@ namespace WebApplication1.Models
         [Required]
         public Product Product { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
-        public User User { get; set; }
+        public AuthorizationUser User { get; set; }
     }
 }

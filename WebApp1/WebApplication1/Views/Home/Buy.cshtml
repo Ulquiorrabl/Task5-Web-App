@@ -1,0 +1,40 @@
+﻿@model WebApplication1.Models.Product
+
+@{ 
+    ViewData["Title"] = $"Buy product {Model.ProductName}";
+}
+
+<!doctype html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        @if (Model != null)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                <div>
+                    <form method="post" asp-action="Buy" asp-controller="Home">
+                        <h5>Transaction registered successfully!</h5>
+                        <input type="hidden" value="@User.Identity.Name" name="userName" />
+                        <input type="hidden" value="@Model.ID" name="productId"/>
+                        <button type="submit">Confirm</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <h5>Please log in or register to buy products</h5>
+            }
+        }
+        else
+        {
+            <div>
+                <h5>Something went wrong... Try again later or contact support.</h5>
+            </div>
+
+        }
+    </div>
+   
+</body>

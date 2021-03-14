@@ -3,15 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication1.Controllers.User
 {
+    [Authorize(Roles = "admin")]
     public class UserController : Controller
     {
-        Models.TransactionContext db;
-        public UserController(Models.TransactionContext db)
+        Models.Authorization.AuthorizationContext db;
+        UserManager<Models.Authorization.AuthorizationUser> _userManager;
+        public UserController(Models.Authorization.AuthorizationContext db, UserManager<Models.Authorization.AuthorizationUser> userManager)
         {
             this.db = db;
+            this._userManager = userManager;
         } 
 
         public IActionResult Index()
@@ -26,9 +31,9 @@ namespace WebApplication1.Controllers.User
             }
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var user = db.Users.FirstOrDefault(usr => usr.UserId == id);
+            var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
                 db.Users.Remove(user);
@@ -43,7 +48,7 @@ namespace WebApplication1.Controllers.User
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Models.User user)
+        public IActionResult Create(Models.Authorization.AuthorizationUser user)
         {
             if(user != null)
             {
@@ -57,16 +62,16 @@ namespace WebApplication1.Controllers.User
         }
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public IActionResult Update(string id)
         {
-            var user = db.Users.FirstOrDefault(x => x.UserId == id);
+            var user = db.Users.FirstOrDefault(x => x.Id == id);
             if (user != null) return View(user);
             else return RedirectToAction("Index");
         }
         [HttpPost]
-        public IActionResult Update(Models.User updatedUser)
+        public IActionResult Update(Models.Authorization.AuthorizationUser updatedUser)
         {
-            var user = db.Users.FirstOrDefault(x => x.UserId == updatedUser.UserId);
+            var user = db.Users.FirstOrDefault(x => x.Id == updatedUser.Id);
             user.UserName = updatedUser.UserName;
             db.SaveChanges();
             return RedirectToAction("Index");

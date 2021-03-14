@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model WebApplication1.Models.Authorization.AuthorizationUser
 @{
     ViewData["Title"] = "Modify User";
 }
@@ -21,7 +21,7 @@
         <div>
             <form method="post">
                 <h2>Input new data:</h2>
-                <input type="hidden" value="@Model.UserId" name="UserId" />
+                <input type="hidden" value="@Model.Id" name="UserId" />
                 <div class="form-group">
                     <label for="userNameInput">Product name:</label>
                     <input class="form-control w-25" type="text" name="UserName" value="@Model.UserName" />

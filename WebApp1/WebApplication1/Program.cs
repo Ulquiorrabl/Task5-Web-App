@@ -7,12 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using WebApplication1.Models.Authorization;
+using WebApplication1.Init;
 
 namespace WebApplication1
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
             using(var serviceScope = host.Services.CreateScope())
@@ -27,6 +30,17 @@ namespace WebApplication1
                 {
                     var logger = services.GetRequiredService <Logger<Program>>();
                     logger.LogError(ex, "Database append exception");
+                }
+                try
+                {
+                    var userManager = services.GetRequiredService <UserManager<AuthorizationUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    await InitializeDefaultUsers.InitializeDefaultAdminisrator(userManager, roleManager);
+                }
+                catch(Exception exception)
+                {
+                    var logger = services.GetRequiredService<Logger<Program>>();
+                    logger.LogError(exception, "Default roles init exception");
                 }
             }
             

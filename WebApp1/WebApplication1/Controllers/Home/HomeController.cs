@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication1.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApplication1.Controllers.Home
 {
@@ -13,10 +14,12 @@ namespace WebApplication1.Controllers.Home
     {
 
         TransactionContext db;
+        private readonly UserManager<Models.Authorization.AuthorizationUser> _userManager;
 
-        public HomeController(TransactionContext db)
+        public HomeController(TransactionContext db, UserManager<Models.Authorization.AuthorizationUser> userManager)
         {
             this.db = db;
+            this._userManager = userManager;
         }
 
         public IActionResult Index()
@@ -104,6 +107,34 @@ namespace WebApplication1.Controllers.Home
                 throw new ArgumentNullException("Null object was received when trying to update Product object");
             }
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult Buy(int id)
+        {
+            var product = db.Products.FirstOrDefault(x => x.ID == id);
+            if (product != null) return View(product);
+            else return View();
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> Buy(string username, int productId)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var product = db.Products.FirstOrDefault(prod => prod.ID == productId);
+            if (user != null && product != null)
+            {
+                db.Transactions.Add(
+                    new Models.Transaction
+                    {
+                        Date = DateTime.Today,
+                        Cost = product.Cost,
+                        Manager = db.Managers.FirstOrDefault(x => x.ManagerName == "Alex"),
+                        Product = product,
+                        User = user
+                    }) ;
+                return RedirectToAction("Index");
+            }
+            else return RedirectToAction("Index");
         }
     }
 }
