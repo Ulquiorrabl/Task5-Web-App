@@ -65,24 +65,20 @@
         <script>
             $(document).ready(function () {
                 $("#btn1").bind("click", (function () {
-                    $.ajax({
+                    $.post({
                         url: "/Home/GetProducts",
-                        method: "Post",
-                        data: $("#productName").val(),
+                        data: { "productNameFilter": $("#productNameField").val() },
+                        dataType: "json",
                         success: (function (data) {
                             let prTable = $('#productTable');
+                            console.log($("#productNameField").val());
                             prTable.empty();
-                            alert(data);
-                            var products = data.content;
-                            alert(products);
-                            alert(products[0]);
-                            alert(products);
-                            $(data).each(function (product) {
-                                product = JSON.parse(product)
-                                prTable.append('<tr><td>' + product["id"] + '</td><td>'
-                                    + product.productName + '</td><td>' + product.cost + '</td><td>')
-                            });
+                            for (let i = 0; i < data.data.length; i++) {
+                                prTable.append('<tr><td>' + data.data[i].id + '</td><td>'
+                                    + data.data[i].productName + '</td><td>' + data.data[i].cost + '</td><td>')
+                            }
                         })
+
                     });
                 }));
             });

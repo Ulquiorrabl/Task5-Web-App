@@ -24,9 +24,10 @@ namespace WebApplication1.Controllers.Home
         [HttpPost]
         public JsonResult GetProducts(string productNameFilter)
         {
-            var products = db.Products.ToList();
+            var products = db.Products
+                .Where(x => x.ProductName.ToLower().Contains(productNameFilter.ToLower()));
             var json = Json(new { data = products });
-            return Json(new { data = products });
+            return Json(new { data = products });//Json(new { data = "{ 'id' : 'hello'}" }); 
         }
 
         [HttpGet]
