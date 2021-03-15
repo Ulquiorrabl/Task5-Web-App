@@ -1,5 +1,4 @@
-﻿@model IEnumerable<Manager>
-@{
+﻿@{
     ViewData["Title"] = "Managers";
 }
 <!doctype html>
@@ -7,23 +6,64 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <table class="table table-bordered table-striped table-dark">
+
+    <div>
+        <form>
+            <div class="form-group">
+                <label for="managerNameField">Input manager name:</label>
+                <input class="form-control w-50" id="managerNameField" type="text" />
+                <label for="managerIdField">Input manager id</label>
+                <input class="form-control w-25" id="managerIdField" type="number" />
+                <button type="button" class="btn btn-light" id="btn1">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <table id="managerTable" class="table table-bordered table-striped table-dark">
         <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Manage</th>
         </tr>
-        @foreach (var manager in Model)
-        {
-            <tr>
-                <td>@manager.ManagerId</td>
-                <td>@manager.ManagerName</td>
-                <td>
-                    <a href="~/Manager/Update/@manager.ManagerId" class="btn btn-primary">Update</a>
-                    <a href="~/Manager/Delete/@manager.ManagerId" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
     </table>
     <a href="~/Manager/Create" class="btn btn-light">Add</a>
+    @if (User.IsInRole("admin"))
+    {
+        @section Scripts{
+            <script>
+                $(document).ready(function () {
+                    BindSearch();
+                    InitTableLoad();
+                });
+                function LoadData(data) {
+                    $("#managerTable").find("tr:not(:first)").remove();
+                    for (let i = 0; i < data.data.length; i++) {
+                        $("#managerTable").append('<tr><td>' + data.data[i].managerId + '</td><td>' +
+                            data.data[i].managerName + '</td><td>' +
+                            '<a href="/Manager/Update/' + data.data[i].managerId + '" class="btn btn-primary">Update</a>' +
+                            '<a href="/Manager/Delete/' + data.data[i].managerId + '" class="btn btn-danger">Delete</a></td></tr>'
+                        );
+                    }
+                }
+                function BindSearch() {
+                    $("#btn1").bind("click", (function () {
+                        $.post({
+                            url: "/Manager/GetManagers",
+                            data: { "nameFilter": $("#managerNameField").val(), "idFilter": $("#managerIdField").val() },
+                            dataType: "json",
+                            success: LoadData
+                        });
+                    }));
+                }
+                function InitTableLoad() {
+                    $.get({
+                        url: "/Manager/GetAllManagers",
+                        dataType: "json",
+                        success: LoadData
+                    });
+                }
+            </script>
+        }
+    }
+
 </body>

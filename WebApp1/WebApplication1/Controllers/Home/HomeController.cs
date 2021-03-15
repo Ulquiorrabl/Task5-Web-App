@@ -22,12 +22,25 @@ namespace WebApplication1.Controllers.Home
             this._userManager = userManager;
         }
         [HttpPost]
-        public JsonResult GetProducts(string productNameFilter)
+        public JsonResult GetProducts(string productNameFilter, int productMaxCost)
         {
-            var products = db.Products
-                .Where(x => x.ProductName.ToLower().Contains(productNameFilter.ToLower()));
+            if(productNameFilter == null && productMaxCost == 0)
+            {
+                return GetAllProducts();
+            }
+            var products = db.Products.ToList();
+            if (productNameFilter != null)
+            {
+                products = products
+                    .Where(x => x.ProductName.ToLower().Contains(productNameFilter.ToLower())).ToList();
+            }
+            if(productMaxCost > 0)
+            {
+                products = products
+                    .Where(product => product.Cost <= productMaxCost).ToList();
+            }
             var json = Json(new { data = products });
-            return Json(new { data = products });//Json(new { data = "{ 'id' : 'hello'}" }); 
+            return Json(new { data = products });
         }
 
         [HttpGet]

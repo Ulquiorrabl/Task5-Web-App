@@ -19,16 +19,43 @@ namespace WebApplication1.Controllers.User
             this._userManager = userManager;
         } 
 
-        public IActionResult Index()
+        [HttpGet]
+        public JsonResult GetAllUsers()
         {
-            if(db.Users != null)
+            if (db.Users != null)
             {
-                return View(db.Users.ToList());
+                return Json(new { data = db.Users.ToList() });
             }
             else
             {
                 throw new NullReferenceException("Users set does not exist in current TransactionContext");
             }
+        }
+
+        [HttpPost]
+        public JsonResult GetUsers(string userNameFilter, string userEmailFilter)
+        {
+            if (userNameFilter == null && userEmailFilter == null)
+            {
+                return GetAllUsers();
+            }
+            var users = db.Users.ToList();
+            if (userNameFilter != null)
+            {
+                users = users
+                    .Where(user => user.UserName.ToLower().Contains(userNameFilter.ToLower())).ToList();
+            }
+            if(userEmailFilter != null)
+            {
+                users = users
+                    .Where(user => user.Email.ToLower().Contains(userEmailFilter.ToLower())).ToList();
+            }
+            return Json(new { data = users });
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
 
         public async Task<IActionResult> Delete(string id)

@@ -16,17 +16,43 @@ namespace WebApplication1.Controllers.Manager
         {
             this.db = db;
         }
-
-        public IActionResult Index()
+        [HttpGet]
+        public JsonResult GetAllManagers()
         {
             if(db.Managers != null)
             {
-                return View(db.Managers.ToList());
+                return Json(new { data = db.Managers.ToList() });
             }
             else
             {
-                throw new NullReferenceException("Managers set does not exist in current TransactionContext");
+                throw new NullReferenceException("Context does not contain set for Managers");
             }
+        }
+
+        [HttpPost]
+        public JsonResult GetManagers(string nameFilter, int idFilter)
+        {
+            if(nameFilter == null && idFilter == 0)
+            {
+                return GetAllManagers();
+            }
+            var managers = db.Managers.ToList();
+            if (idFilter != 0)
+            {
+                managers = managers.Where(manager => manager.ManagerId == idFilter).ToList();
+            }
+            if(nameFilter != null)
+            {
+                managers = managers
+                    .Where(manager => manager.ManagerName.ToLower().Contains(nameFilter)).ToList();
+            }          
+            return Json(new { data = managers });
+            
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
 
         public IActionResult Delete(int id)
