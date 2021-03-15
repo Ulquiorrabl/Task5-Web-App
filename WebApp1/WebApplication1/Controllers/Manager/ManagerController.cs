@@ -44,7 +44,7 @@ namespace WebApplication1.Controllers.Manager
             if(nameFilter != null)
             {
                 managers = managers
-                    .Where(manager => manager.ManagerName.ToLower().Contains(nameFilter)).ToList();
+                    .Where(manager => manager.ManagerName.ToLower().Contains(nameFilter.ToLower())).ToList();
             }          
             return Json(new { data = managers });
             

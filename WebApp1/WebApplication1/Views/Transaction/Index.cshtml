@@ -1,5 +1,4 @@
-﻿@model IEnumerable<Transaction>
-@{
+﻿@{
     ViewData["Title"] = "Transactions";
 }
 <!doctype html>
@@ -8,39 +7,67 @@
 </head>
 <body>
     <div>
-        <form method="post">
+        <form>
             <div class="form-group">
                 <label for="productNameField">Input product name:</label>
                 <input class="form-control w-50" id="productNameField" type="text" name="productName" />
-                <label for="productNameField">Input product name:</label>
+                <label for="userNameField">Input user name:</label>
                 <input class="form-control w-50" id="userNameField" type="text" name="userName" />
-            </div>
-            <div class="form-group">
-                <button class="btn btn-light">Search</button>
-            </div>
+                <button id="btn1" type="button" class="btn btn-light">Search</button>
         </form>
     </div>
-    <table class="table table-bordered table-striped table-dark">
+    <table id="transactionTable" class="table table-bordered table-striped table-dark">
         <tr>
             <th>ID</th>
             <th>Date</th>
             <th>Product</th>
             <th>Product ID</th>
             <th>User ID</th>
-            <th>User</th>
+            <th>User Name</th>
             <th>Cost</th>
+            <th>Manage</th>
         </tr>
-        @foreach (var transaction in Model)
-        {
-            <tr>
-                <td>@transaction.TransactionId</td>
-                <td>@transaction.Date</td>
-                <td>@transaction.Product?.ProductName</td>
-                <td>@transaction.ProductId</td>
-                <td>@transaction.UserId</td>
-                <td>@transaction.User?.UserName</td>
-                <td>@transaction.Cost</td>
-            </tr>
-        }
     </table>
+
+    @if (User.IsInRole("admin"))
+    {
+        @section Scripts{
+            <script>
+                $(document).ready(function () {
+                    BindSearch();
+                    InitTableLoad();
+                });
+                function LoadData(data) {
+                    $("#transactionTable").find("tr:not(:first)").remove();
+                    for (let i = 0; i < data.data.length; i++) {
+                        $("#transactionTable").append('<tr><td>' + data.data[i].transactionId + '</td><td>' +
+                            data.data[i].date + '</td><td>' + data.data[i].product.productName + '</td><td>' +
+                             data.data[i].product.id + '</td><td>' +
+                             data.data[i].user.id +  '</td><td>' +  data.data[i].user.userName + '</td><td>' +
+                             data.data[i].cost + '</td><td>' +
+                            //'<a href="/Transaction/Update/' + data.data[i].id + '" class="btn btn-primary">Update</a>' +
+                            '<a href="/Transaction/Delete/' + data.data[i].transactionId + '" class="btn btn-danger">Delete</a></td></tr>'
+                        );
+                    }
+                }
+                function BindSearch() {
+                    $("#btn1").bind("click", (function () {
+                        $.post({
+                            url: "/Transaction/GetTransactions",
+                            data: { "productNameFilter": $("#productNameField").val(), "userNameFilter" : $("#userNameField").val() },
+                            dataType: "json",
+                            success: LoadData
+                        });
+                    }));
+                }
+                function InitTableLoad() {
+                    $.get({
+                        url: "/Transaction/GetAllTransactions",
+                        dataType: "json",
+                        success: LoadData
+                    });
+                }
+            </script>
+        }
+    }
 </body>

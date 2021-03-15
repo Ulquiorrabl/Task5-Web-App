@@ -176,11 +176,11 @@ namespace WebApplication1.Controllers.Home
                 db.Transactions.Add(
                     new Models.Transaction
                     {
-                        Date = DateTime.Today,
+                        Date = DateTime.Now,
                         Cost = product.Cost,
-                        Manager = db.Managers.FirstOrDefault(x => x.ManagerName == "Alex"),
-                        Product = product,
-                        User = user
+                        Manager = db.Managers.FirstOrDefault(),
+                        ProductId = product.ID,
+                        UserId = user.Id,
                     }) ;
                 db.SaveChanges();
                 return RedirectToAction("Index");
