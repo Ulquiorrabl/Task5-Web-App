@@ -31,6 +31,13 @@ namespace WebApplication1.Controllers.Home
         }
 
         [HttpGet]
+        public JsonResult GetAllProducts()
+        {
+            var products = db.Products.ToList();
+            return Json(new { data = products });
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
             if(db.Products != null)
