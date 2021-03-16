@@ -13,7 +13,7 @@ namespace WebApplication1.Models.Authorization.Validation
         public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(30, MinimumLength = 3)]
+        [StringLength(30, MinimumLength = 5)]
         public string Password { get; set; }
     }
 }

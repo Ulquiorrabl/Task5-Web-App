@@ -7,7 +7,7 @@
             },
             Password: {
                 required: true,
-                minlength: 3
+                minlength: 5
             }
         },
         submitHandler: function (form) {

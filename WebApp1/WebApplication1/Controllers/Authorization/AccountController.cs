@@ -27,35 +27,42 @@ namespace WebApplication1.Controllers.Authorization
         [HttpPost]
         public async Task<IActionResult> Registration(Models.Authorization.Validation.AuthorisationUserView userInfo)
         {
-            Console.WriteLine(TryValidateModel(userInfo));
-            if (TryValidateModel(userInfo))
+            if(_userManager != null)
             {
-                var user = new AuthorizationUser
+                if (userInfo != null && TryValidateModel(userInfo))
                 {
-                    UserName = userInfo.UserName,
-                    Email = userInfo.Email
-                };
-                var resultOfCreating = await _userManager.CreateAsync(user, userInfo.Password);
-                if (resultOfCreating.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, "user");
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    var user = new AuthorizationUser
+                    {
+                        UserName = userInfo.UserName,
+                        Email = userInfo.Email
+                    };
+                    var resultOfCreating = await _userManager.CreateAsync(user, userInfo.Password);
+                    if (resultOfCreating.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, "user");
+                        await _signInManager.SignInAsync(user, false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        foreach (var valError in resultOfCreating.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, valError.Description);
+                        }
+                        return View(userInfo);
+                    }
+
                 }
                 else
                 {
-                    foreach (var valError in resultOfCreating.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, valError.Description);
-                    }
                     return View(userInfo);
                 }
-
             }
             else
             {
-                return View(userInfo);
+                throw new NullReferenceException("Identity User Manager is not exist in current services");
             }
+
         }
         
         [HttpGet]

@@ -77,6 +77,8 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseStatusCodePagesWithReExecute("/Home/Error");
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
