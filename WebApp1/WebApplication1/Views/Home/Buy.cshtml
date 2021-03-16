@@ -16,22 +16,22 @@
             {
                 <div>
                     <form method="post" asp-action="Buy" asp-controller="Home">
-                        <h5>Transaction registered successfully!</h5>
+                        <h3>Proceduring checkout:</h3>
                         <input type="hidden" value="@User.Identity.Name" name="userName" />
                         <input type="hidden" value="@Model.ID" name="productId"/>
-                        <button type="submit">Confirm</button>
+                        <button type="submit" class="btn btn-light">Checkout</button>
                     </form>
                 </div>
             }
             else
             {
-                <h5>Please log in or register to buy products</h5>
+                <h3>Please log in or register to buy products</h3>
             }
         }
         else
         {
             <div>
-                <h5>Something went wrong... Try again later or contact support.</h5>
+                <h3>Something went wrong... Try again later or contact support.</h3>
             </div>
 
         }
