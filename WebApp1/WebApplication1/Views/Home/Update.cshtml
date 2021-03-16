@@ -21,7 +21,7 @@
             </table>
         </div>
         <div>
-            <form method="post">
+            <form id="productForm" method="post">
                 <input type="hidden" value="@Model.ID" name="ID" />
                 <div>
                     <h2>Input new data:</h2>
@@ -38,5 +38,9 @@
             </form>
         </div>
     </div>
+
+    @section Scripts{
+    <script src="~/js/validation/product.validation.js"></script>
+    }
 </body>
 </html>

@@ -66,20 +66,29 @@ namespace WebApplication1.Controllers.Authorization
         [HttpPost]
         public async Task<IActionResult> Login(Models.Authorization.Validation.AuthorisationLoginView userLogin)
         {
-            if(userLogin != null && TryValidateModel(userLogin))
+            if(_userManager != null)
             {
-                var user = await _userManager.FindByEmailAsync(userLogin.Email);
-                if(user != null)
+                if (userLogin != null && TryValidateModel(userLogin))
                 {
-                    var passwordValidation = await _userManager.CheckPasswordAsync(user, userLogin.Password);
-                    if (passwordValidation)
+                    var user = await _userManager.FindByEmailAsync(userLogin.Email);
+                    if (user != null)
                     {
-                        await _signInManager.SignInAsync(user, false);
+                        var passwordValidation = await _userManager.CheckPasswordAsync(user, userLogin.Password);
+                        if (passwordValidation)
+                        {
+                            await _signInManager.SignInAsync(user, false);
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
-
                 }
+                ModelState.AddModelError(string.Empty, "Incorrect username or password");
+                return View();
             }
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                throw new NullReferenceException("Identity User Manager is not exist in current services");
+            }
+
         }
         [HttpGet]
         public async Task<IActionResult> SignOut()

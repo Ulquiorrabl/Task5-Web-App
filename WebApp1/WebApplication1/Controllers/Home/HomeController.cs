@@ -46,31 +46,40 @@ namespace WebApplication1.Controllers.Home
         [HttpGet]
         public JsonResult GetAllProducts()
         {
-            var products = db.Products.ToList();
-            return Json(new { data = products });
+            if(db.Products != null)
+            {
+                    var products = db.Products.ToList();
+                    return Json(new { data = products });
+            }
+            else
+            {
+                throw new NullReferenceException("Set of objects Products in current contexts is not exist");
+            }
+
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            if(db.Products != null)
+            return View();
+           /* if(db.Products != null)
             {
                 return View(db.Products.ToList()); //Json(new { data = db.Products.ToList() }) ;  //View(db.Products.ToList());
             }
             else
             {
                 throw new NullReferenceException("Set of objects Products in current contexts is not exist");
-            }
+            } */
         }
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Index(string productName)
         {
+            productName = null;
             if (db.Products != null)
             {
                 var products = db.Products.Where(product => product.ProductName.Contains(productName)).ToList();
                 if(products != null)
                 {
-
                     return View(db.Products.ToList());
                 }
                 else
@@ -82,7 +91,7 @@ namespace WebApplication1.Controllers.Home
             {
                 throw new NullReferenceException("Set of objects Products in current contexts is not exist");
             }
-        }
+        } */
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -92,16 +101,24 @@ namespace WebApplication1.Controllers.Home
 
         public IActionResult Delete(int id)
         {
-            Product pr = db.Products.FirstOrDefault(x => x.ID == id);
-            if(pr != null)
-            {
-                db.Products.Remove(pr);
-                db.SaveChanges();
-            }
-            else
-            {
-                throw new KeyNotFoundException("Product not found");
-            }
+              var pr = db.Products.FirstOrDefault(x => x.ID == id);
+                if (pr != null)
+                {
+                    try
+                    {
+                        db.Products.Remove(pr);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine($"Error {e.Message}. Stack trace: {e.StackTrace}");
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Product not found");
+                }
             return RedirectToAction("Index");
         }
 
@@ -112,8 +129,16 @@ namespace WebApplication1.Controllers.Home
             {
                 if (TryValidateModel(product))
                 {
-                    db.Products.Add(product);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.Products.Add(product);
+                        db.SaveChanges();
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.WriteLine($"Error {e.Message}. Stack trace: {e.StackTrace}");
+                    }
+
                 }
 
             }
@@ -132,37 +157,73 @@ namespace WebApplication1.Controllers.Home
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var product = db.Products.FirstOrDefault(product => product.ID == id);
-            if(product != null)
+            if (db.Products != null)
             {
-                return View(product);
+                var product = db.Products.FirstOrDefault(product => product.ID == id);
+                if (product != null)
+                {
+                    return View(product);
+                }
+                else
+                {
+                    throw new KeyNotFoundException("Product with this id not found");
+                }
             }
             else
             {
-                throw new KeyNotFoundException("Product with this id not found");
+                throw new KeyNotFoundException("Products set is not exist in current database context");
             }
         }
         [HttpPost]
         public IActionResult Update(Product updatedProduct)
         {
-            var product = db.Products.FirstOrDefault(x => x.ID == updatedProduct.ID);
-            if(product != null)
+            if(db.Products != null)
             {
-                product.ProductName = updatedProduct.ProductName;
-                product.Cost = updatedProduct.Cost;
-                db.SaveChanges();
+                var product = db.Products.FirstOrDefault(x => x.ID == updatedProduct.ID);
+                if (product != null)
+                {
+                    if (TryValidateModel(updatedProduct))
+                    {
+                        try
+                        {
+                            product.ProductName = updatedProduct.ProductName;
+                            product.Cost = updatedProduct.Cost;
+                            db.SaveChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine($"Error {e.Message}. Stack trace: {e.StackTrace}");
+                        }
+                    }
+
+                }
+                else
+                {
+                    throw new ArgumentNullException("Null object was received when trying to update Product object");
+                }
             }
             else
             {
-                throw new ArgumentNullException("Null object was received when trying to update Product object");
+                throw new KeyNotFoundException("Products set is not exist in current database context");
             }
             return RedirectToAction("Index");
         }
         [HttpGet]
         public IActionResult Buy(int id)
         {
-            var product = db.Products.FirstOrDefault(x => x.ID == id);
-            if (product != null) return View(product);
+            if(id > 0)
+            {
+                if(db.Products != null)
+                {
+                    var product = db.Products.FirstOrDefault(x => x.ID == id);
+                    if (product != null) return View(product);
+                    else return View();
+                }
+                else
+                {
+                    throw new KeyNotFoundException("Products set is not exist in current database context");
+                }
+            }
             else return View();
 
         }

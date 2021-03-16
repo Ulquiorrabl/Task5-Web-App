@@ -14,7 +14,7 @@ namespace WebApplication1.Models
         [StringLength(30, MinimumLength = 3)]
         public string ProductName { get; set; }
         [Required]
-        [Range(0.01, 50000)]
+        [Range(0.01, 500000)]
         public int Cost { get; set; }
     }
 }

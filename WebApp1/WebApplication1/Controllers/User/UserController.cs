@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
 
 namespace WebApplication1.Controllers.User
 {
@@ -63,8 +64,15 @@ namespace WebApplication1.Controllers.User
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                db.Users.Remove(user);
-                db.SaveChanges();
+                try
+                {
+                    db.Users.Remove(user);
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    Debug.WriteLine($"Error {e.Message}. Stack trace: {e.StackTrace}");
+                }
             }
             return  RedirectToAction("Index");
         }

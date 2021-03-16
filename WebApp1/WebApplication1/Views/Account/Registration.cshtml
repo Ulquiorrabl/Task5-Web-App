@@ -11,7 +11,7 @@
         <h3>Input data for registering</h3>
         <div asp-validation-summary="ModelOnly"></div>
         <div>
-            <form method="post">
+            <form id="registerForm" method="post">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input class="form-control w-25" type="text" id="username" name="UserName" />
@@ -38,4 +38,7 @@
             </form>
         </div>
     </div>
+    @section Scripts{ 
+        <script src="~/js/validation/account/registration.validation.js"></script>
+    }
 </body>

@@ -9,20 +9,22 @@
     <div class="text-light">
         <h2>Input product details:</h2>
         <div>
-            <form method="post">
+            <form id="productForm" action="" method="post">
                 <div>
                     <div class="form-group navbar-dark">
                         <label for="productNameInput"> Product name:</label>
-                        <input class="form-control w-25" type="text" id="productNameInput" name="ProductName"/>
+                        <input class="form-control w-25" type="text" id="productNameInput" name="ProductName" />
                     </div>
                     <div class="form-group">
                         Product cost:
-                        <input class="form-control w-25" type="text" name="Cost"/>
+                        <input class="form-control w-25" type="text" name="Cost" />
                     </div>
                 </div>
                 <button type="submit" class="btn btn-light">Confirm</button>
             </form>
         </div>
     </div>
-    
+    @section Scripts{
+        <script src="~/js/validation/product.validation.js"></script>
+    }
 </body>

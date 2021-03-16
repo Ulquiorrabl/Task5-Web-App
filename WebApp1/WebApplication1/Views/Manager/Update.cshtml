@@ -19,7 +19,7 @@
             </table>
         </div>
         <div>
-            <form method="post">
+            <form id="managerForm" method="post">
                 <input type="hidden" value="@Model.ManagerId" name="ManagerId" />
                 <h2>Input new data:</h2>
                 <div class="form-group">
@@ -29,6 +29,10 @@
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>
-    </div> 
+    </div>
+    @section Scripts{
+        <script src="~/js/validation/manager.validation.js"></script>
+    }
 </body>
+
 </html>
