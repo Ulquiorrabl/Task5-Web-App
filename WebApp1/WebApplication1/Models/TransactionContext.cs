@@ -11,7 +11,7 @@ namespace WebApplication1.Models
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<User> Users { get; set; }
+        //public DbSet<User> Users { get; set; }
 
         public TransactionContext(DbContextOptions<TransactionContext> options):
             base(options)

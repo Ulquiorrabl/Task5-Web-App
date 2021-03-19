@@ -83,14 +83,26 @@ namespace WebApplication1.Controllers.User
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Models.Authorization.AuthorizationUser user)
+        public async Task<IActionResult> Create(Models.Authorization.AuthorizationUser user, string Password)
         {
-            if(user != null)
+            if(user != null && Password != null)
             {
                 if (TryValidateModel(user))
                 {
-                    db.Users.Add(user);
-                    db.SaveChanges();
+                    var resultOfCreating = await _userManager.CreateAsync(user, Password);
+                    if (resultOfCreating.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, "user");
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        foreach (var valError in resultOfCreating.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, valError.Description);
+                        }
+                        return RedirectToAction("Index");
+                    }
                 }
             }
             return RedirectToAction("Index");

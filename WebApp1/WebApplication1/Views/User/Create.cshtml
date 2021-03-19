@@ -9,14 +9,31 @@
     <div class="text-light">
         <h2>Input user information:</h2>
         <div>
-            <form method="post">
+            <form id="registerForm" method="post">
                 <div class="form-group">
-                    <label for="userNameInput">User name:</label>
-                    <input class="form-control w-25" type="text" name="UserName" />
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="form-group">
+                        <label for="userNameInput">User name:</label>
+                        <input class="form-control w-25" type="text" name="UserName" id="userNameInput" />
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmailInput">User email:</label>
+                        <input class="form-control w-25" type="email" name="Email" id="userEmailInput" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">User password:</label>
+                        <input class="form-control w-25" type="password" name="Password" id="Password" />
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassConfInput">Confirm password:</label>
+                        <input class="form-control w-25" type="password" name="ConfirmPassword" id="userPassConfInput" />
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-light">Confirm</button>
+                <button id="btn1" type="submit" class="btn btn-light">Create</button>
             </form>
         </div>
     </div>
-
+  @section Scripts{ 
+    <script src="~/js/validation/account/registration.validation.js"></script>
+  }
 </body>

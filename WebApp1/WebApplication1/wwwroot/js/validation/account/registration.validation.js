@@ -67,6 +67,5 @@
     $.validator.addMethod("containLower", function (value) {
         var pattern = /([a-z])/;
         return pattern.test(value);
-
     });
 });
